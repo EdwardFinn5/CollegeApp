@@ -9,8 +9,8 @@ namespace API.Entities
         public int ColUserId { get; set; }
         [DataType(DataType.EmailAddress)]
         public string ColUserName { get; set; }
-        // public byte[] PasswordHash { get; set; }
-        // public byte[] PasswordSalt { get; set; }
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
         // public string FirstName { get; set; }
         // public string LastName { get; set; }
         // public string HsName { get; set; }
@@ -32,7 +32,7 @@ namespace API.Entities
         // public int NetPay { get; set; }
         // public DateTime Created { get; set; } = DateTime.Now;
         // public DateTime LastActive { get; set; } = DateTime.Now;
-        // public string ColUserType { get; set; }
+        public string ColUserType { get; set; }
         // public bool Active { get; set; } = true;
         // public string CollegeDescription { get; set; }
         // public string CollegeStreet { get; set; }
