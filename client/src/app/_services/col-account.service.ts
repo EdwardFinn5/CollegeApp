@@ -11,13 +11,14 @@ export class ColAccountService {
   baseUrl = 'https://localhost:5001/api/';
   private currentColUserSource = new ReplaySubject<ColUser>(1);
   currentColUser$ = this.currentColUserSource.asObservable();
+  colUserType: string;
 
   constructor(private http: HttpClient) {}
 
   colLogin(model: any) {
     return this.http.post(this.baseUrl + 'colAccount/colLogin', model).pipe(
       map((response: ColUser) => {
-        const colUser = response
+        const colUser = response;
         if (colUser) {
           localStorage.setItem('colUser', JSON.stringify(colUser));
           this.currentColUserSource.next(colUser);
@@ -26,12 +27,40 @@ export class ColAccountService {
     );
   }
 
-  setCurrentColUser(colUser: ColUser) {
+  collegeRegister(model: any) {
+    return this.http
+      .post(this.baseUrl + 'colaccount/collegeregister', model)
+      .pipe(
+        map((colUser: ColUser) => {
+          if (colUser) {
+            localStorage.setItem('colUser', JSON.stringify(colUser));
+            this.currentColUserSource.next(colUser);
+            this.colUserType = colUser.colUserType;
+          }
+        })
+      );
+  }
+
+  hsRegister(model: any) {
+    return this.http.post(this.baseUrl + 'colaccount/hsregister', model).pipe(
+      map((colUser: ColUser) => {
+        if (colUser) {
+          localStorage.setItem('colUser', JSON.stringify(colUser));
+          this.currentColUserSource.next(colUser);
+          this.colUserType = colUser.colUserType;
+        }
+      })
+    );
+  }
+
+  setCurrentUser(colUser: ColUser) {
     this.currentColUserSource.next(colUser);
+    this.colUserType = colUser.colUserType;
   }
 
   logout() {
     localStorage.removeItem('colUser');
+    localStorage.removeItem('loginStatus');
     this.currentColUserSource.next(null);
   }
 }
