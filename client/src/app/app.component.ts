@@ -1,5 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { ColUser } from './_models/colUser';
+import { ColAccountService } from './_services/col-account.service';
 
 @Component({
   selector: 'app-root',
@@ -10,10 +12,19 @@ export class AppComponent implements OnInit {
   title = 'College Connect';
   colUsers: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private colAccountService: ColAccountService
+  ) {}
 
   ngOnInit() {
     this.getUsers();
+    this.setCurrentUser();
+  }
+
+  setCurrentUser() {
+    const colUser: ColUser = JSON.parse(localStorage.getItem('colUser'));
+    this.colAccountService.setCurrentColUser(colUser);
   }
 
   getUsers() {
