@@ -46,7 +46,7 @@ namespace API.Controllers
             };
         }
 
-        [HttpPost("ColRegister")]
+        [HttpPost("CollegeRegister")]
         public async Task<ActionResult<ColUserDto>> Register(ColRegisterDto colRegisterDto)
         {
 

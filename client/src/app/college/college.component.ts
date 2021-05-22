@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ColAccountService } from '../_services/col-account.service';
@@ -11,13 +12,23 @@ export class CollegeComponent implements OnInit {
   hsRegisterMode = false;
   model: any = {};
   loggedIn: boolean;
+  // colUsers: any;
 
   constructor(
     public colAccountService: ColAccountService,
     private router: Router
-  ) {}
+  ) // private http: HttpClient
+  {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // this.getColUsers();
+  }
+
+  // getColUsers() {
+  //   this.http
+  //     .get('https://localhost:5001/api/colUsers')
+  //     .subscribe((colUsers) => (this.colUsers = colUsers));
+  // }
 
   registerToggle() {
     this.hsRegisterMode = !this.hsRegisterMode;
@@ -44,5 +55,10 @@ export class CollegeComponent implements OnInit {
 
   onRegisterBtn() {
     this.router.navigate(['/hsregister']);
+  }
+
+  cancel() {
+    console.log('cancelled');
+    this.router.navigateByUrl('/');
   }
 }

@@ -10,15 +10,15 @@ import { ColAccountService } from './_services/col-account.service';
 })
 export class AppComponent implements OnInit {
   title = 'College Connect';
-  colUsers: any;
+  // colUsers: any;
 
   constructor(
-    private http: HttpClient,
     private colAccountService: ColAccountService
-  ) {}
+  ) // private http: HttpClient
+  {}
 
   ngOnInit() {
-    this.getUsers();
+    // this.getColUsers();
     this.setCurrentUser();
   }
 
@@ -27,14 +27,14 @@ export class AppComponent implements OnInit {
     this.colAccountService.setCurrentColUser(colUser);
   }
 
-  getUsers() {
-    this.http.get('https://localhost:5001/api/colUsers').subscribe(
-      (response) => {
-        this.colUsers = response;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
+  // getColUsers() {
+  //   this.http.get('https://localhost:5001/api/colUsers').subscribe(
+  //     (response) => {
+  //       this.colUsers = response;
+  //     },
+  //     (error) => {
+  //       console.log(error);
+  //     }
+  //   );
+  // }
 }

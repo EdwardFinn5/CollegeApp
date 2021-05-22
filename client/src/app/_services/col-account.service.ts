@@ -37,6 +37,7 @@ export class ColAccountService {
             this.currentColUserSource.next(colUser);
             this.colUserType = colUser.colUserType;
           }
+          // return colUser;
         })
       );
   }
@@ -49,11 +50,12 @@ export class ColAccountService {
           this.currentColUserSource.next(colUser);
           this.colUserType = colUser.colUserType;
         }
+        // return colUser;
       })
     );
   }
 
-  setCurrentUser(colUser: ColUser) {
+  setCurrentColUser(colUser: ColUser) {
     this.currentColUserSource.next(colUser);
     this.colUserType = colUser.colUserType;
   }

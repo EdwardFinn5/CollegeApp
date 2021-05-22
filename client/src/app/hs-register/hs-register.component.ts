@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { ColAccountService } from '../_services/col-account.service';
 
@@ -24,11 +24,11 @@ export class HsRegisterComponent implements OnInit {
       (response) => {
         console.log(response);
         this.cancel();
-        this.router.navigateByUrl('/colmemberlist');
+        // this.router.navigateByUrl('/collegelist');
       },
       (error) => {
         console.log(error);
-        this.toastr.error(error.error);
+        // this.toastr.error(error.error);
       }
     );
   }
@@ -36,5 +36,6 @@ export class HsRegisterComponent implements OnInit {
   cancel() {
     console.log('cancelled');
     this.cancelHsRegister.emit(false);
+    this.router.navigateByUrl('/');
   }
 }

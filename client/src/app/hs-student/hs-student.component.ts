@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ColAccountService } from '../_services/col-account.service';
 
@@ -11,27 +12,31 @@ export class HsStudentComponent implements OnInit {
   collegeRegisterMode = false;
   model: any = {};
   loggedIn: boolean;
+  // colUsers: any;
 
   constructor(
     public colAccountService: ColAccountService,
-    private router: Router // private toastr: ToastrService
-  ) {}
+    private router: Router
+  ) // private http: HttpClient
+  {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // this.getColUsers();
+  }
+
+  // getColUsers() {
+  //   this.http
+  //     .get('https://localhost:5001/api/colUsers')
+  //     .subscribe((colUsers) => (this.colUsers = colUsers));
+  // }
 
   registerToggle() {
     this.collegeRegisterMode = !this.collegeRegisterMode;
   }
 
-  cancelRegisterMode(event: boolean) {
+  cancelCollegeRegisterMode(event: boolean) {
     this.collegeRegisterMode = event;
   }
-
-  // getUsers() {
-  //   this.http.get('https://localhost:5001/api/users')
-  //     .subscribe(users => this.users = users);
-
-  // }
 
   login() {
     this.colAccountService.colLogin(this.model).subscribe((response) => {
@@ -50,5 +55,10 @@ export class HsStudentComponent implements OnInit {
 
   onRegisterBtn() {
     this.router.navigate(['/collegeregister']);
+  }
+
+  cancel() {
+    console.log('cancelled');
+    this.router.navigateByUrl('/');
   }
 }

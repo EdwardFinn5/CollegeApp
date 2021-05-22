@@ -14,22 +14,6 @@
       
         <ul class="navbar-nav mr-auto" style="font-size: 1.3em">
        
-          <!-- <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Colleges</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="#">Searches</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="#">Students</a>
-          </li> -->
-   
-        
-        
-        
-        
-        
-        
         <li class="nav-item dropdown ml-5 mr-5" *ngIf="(colAccountService.currentColUser$ | async) === null">
           <a class="nav-link active dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search Colleges</a>
           <div class="dropdown-menu" aria-labelledby="dropdown01">
@@ -42,7 +26,7 @@
 
       
         <li class="nav-item dropdown" *ngIf="(colAccountService.currentColUser$ | async) === null">
-          <a class="nav-link active dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">HS Students</a>
+          <a class="nav-link active dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Search HS Students</a>
           <div class="dropdown-menu" aria-labelledby="dropdown01">
             <a class="dropdown-item" routerLink='/hsstudent'>Search HS Students</a>
             <a *ngIf="colAccountService.currentColUser$ | async"  class="dropdown-item" routerLink='/hsstudent'>See Results</a>
