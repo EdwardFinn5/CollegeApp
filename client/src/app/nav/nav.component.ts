@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { ColUser } from '../_models/colUser';
 import { ColAccountService } from '../_services/col-account.service';
@@ -11,7 +12,10 @@ import { ColAccountService } from '../_services/col-account.service';
 export class NavComponent implements OnInit {
   model: any = {};
 
-  constructor(public colAccountService: ColAccountService) {}
+  constructor(
+    public colAccountService: ColAccountService,
+    private route: Router
+  ) {}
 
   ngOnInit(): void {}
 
@@ -28,5 +32,6 @@ export class NavComponent implements OnInit {
 
   logout() {
     this.colAccountService.logout();
+    this.route.navigateByUrl('/');
   }
 }

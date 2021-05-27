@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavComponent } from './nav/nav.component';
 import { FormsModule } from '@angular/forms';
-import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { HomeComponent } from './home/home.component';
 import { CollegeComponent } from './college/college.component';
 import { HsStudentComponent } from './hs-student/hs-student.component';
@@ -25,9 +24,42 @@ import { CollegeCardComponent } from './college-card/college-card.component';
 import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
+import { MemberListComponent } from './members/member-list/member-list.component';
+import { MemberDetailComponent } from './members/member-detail/member-detail.component';
+import { MemberCardComponent } from './members/member-card/member-card.component';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { MessagesComponent } from './messages/messages.component';
+import { ListsComponent } from './lists/lists.component';
+import { SharedModule } from './_modules/shared.module';
 
 @NgModule({
-  declarations: [AppComponent, NavComponent, HomeComponent, CollegeComponent, HsStudentComponent, CollegeEditComponent, CollegeRegisterComponent, CollegeListComponent, CollegeDetailComponent, ColUserLoginComponent, HsRegisterComponent, HsListComponent, HsDetailComponent, HsEditComponent, HsCardComponent, CollegeCardComponent, TestErrorsComponent, NotFoundComponent, ServerErrorComponent],
+  declarations: [
+    AppComponent,
+    NavComponent,
+    HomeComponent,
+    CollegeComponent,
+    HsStudentComponent,
+    CollegeEditComponent,
+    CollegeRegisterComponent,
+    CollegeListComponent,
+    CollegeDetailComponent,
+    ColUserLoginComponent,
+    HsRegisterComponent,
+    HsListComponent,
+    HsDetailComponent,
+    HsEditComponent,
+    HsCardComponent,
+    CollegeCardComponent,
+    TestErrorsComponent,
+    NotFoundComponent,
+    ServerErrorComponent,
+    MemberListComponent,
+    MemberDetailComponent,
+    MemberCardComponent,
+    MemberEditComponent,
+    MessagesComponent,
+    ListsComponent,
+  ],
 
   imports: [
     BrowserModule,
@@ -35,7 +67,7 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
     HttpClientModule,
     BrowserAnimationsModule,
     FormsModule,
-    BsDropdownModule.forRoot(),
+    SharedModule,
   ],
 
   providers: [],

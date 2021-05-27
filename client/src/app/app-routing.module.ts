@@ -15,18 +15,33 @@ import { ColUserLoginComponent } from './col-user-login/col-user-login.component
 import { HsStudentComponent } from './hs-student/hs-student.component';
 import { HsRegisterComponent } from './hs-register/hs-register.component';
 import { CollegeRegisterComponent } from './college-register/college-register.component';
+import { MemberListComponent } from './members/member-list/member-list.component';
+import { MemberDetailComponent } from './members/member-detail/member-detail.component';
+import { ListsComponent } from './lists/lists.component';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
+import { MessagesComponent } from './messages/messages.component';
+import { AuthGuard } from './_guards/auth.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'college', component: CollegeComponent },
+  {
+    path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    children: [
+      { path: 'members', component: MemberListComponent },
+      { path: 'hsmemberedit', component: HsEditComponent },
+      { path: 'lists', component: ListsComponent },
+      { path: 'messages', component: MessagesComponent },
+    ],
+  },
   { path: 'hsstudent', component: HsStudentComponent },
+  { path: 'college', component: CollegeComponent },
   { path: 'coluserlogin', component: ColUserLoginComponent },
-  { path: 'collegelist', component: CollegeListComponent },
   { path: 'collegeregister', component: CollegeRegisterComponent },
-  { path: 'college/:username', component: CollegeDetailComponent },
-  { path: 'college/edit', component: CollegeEditComponent },
-  { path: 'hs/edit', component: HsEditComponent },
-  { path: 'hs/:username', component: HsDetailComponent },
+  { path: 'collegemember/:id', component: MemberDetailComponent },
+  { path: 'hsmember/:id', component: HsDetailComponent },
+  { path: 'collegememberedit', component: MemberEditComponent },
   { path: 'hslist', component: HsListComponent },
   { path: 'hsregister', component: HsRegisterComponent },
   { path: 'errors', component: TestErrorsComponent },
