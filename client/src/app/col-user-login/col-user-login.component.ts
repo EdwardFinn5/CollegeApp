@@ -22,17 +22,11 @@ export class ColUserLoginComponent implements OnInit {
   ngOnInit(): void {}
 
   login() {
-    this.colAccountService.colLogin(this.model).subscribe(
-      (response) => {
-        console.log(response);
-        this.loggedIn = true;
-        this.router.navigateByUrl('/members');
-      },
-      (error) => {
-        console.log(error);
-        this.toastr.error(error.error);
-      }
-    );
+    this.colAccountService.colLogin(this.model).subscribe((response) => {
+      console.log(response);
+      this.loggedIn = true;
+      this.router.navigateByUrl('/members');
+    });
   }
 
   logout() {
