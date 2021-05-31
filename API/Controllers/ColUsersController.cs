@@ -2,34 +2,39 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using API.Data;
+using API.DTOs;
 using API.Entities;
+using API.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace API.Controllers
 {
+    [Authorize]
     public class ColUsersController : BaseApiController
     {
-        private readonly DataContext _context;
-        public ColUsersController(DataContext context)
+        private readonly IColUserRepository _colUserRepository;
+        private readonly IMapper _mapper;
+        public ColUsersController(IColUserRepository colUserRepository, IMapper mapper)
         {
-            _context = context;
+            _mapper = mapper;
+            _colUserRepository = colUserRepository;
         }
 
         [HttpGet]
-        [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<ColUser>>> GetColUsers()
+        public async Task<ActionResult<IEnumerable<ColMemberDto>>> GetColUsers()
         {
-            return await _context.ColUsers.ToListAsync();
+            var colUsers = await _colUserRepository.GetColMembersAsync();
+
+            return Ok(colUsers);
         }
 
-        [Authorize]
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ColUser>> GetColUser(int id)
+        [HttpGet("{colusername}")]
+        public async Task<ActionResult<ColMemberDto>> GetColUser(string colusername)
         {
-            return await _context.ColUsers.FindAsync(id);
-
+            return await _colUserRepository.GetColMemberAsync(colusername);
         }
     }
 }

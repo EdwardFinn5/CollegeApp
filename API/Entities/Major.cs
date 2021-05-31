@@ -15,6 +15,6 @@ namespace API.Entities
         
         public MajorCat MajorCat { get; set; }
 
-        public IList<CollegeMajor> CollegeMajors { get; set; }
+        public ICollection<CollegeMajor> CollegeMajors { get; set; }
     }
 }

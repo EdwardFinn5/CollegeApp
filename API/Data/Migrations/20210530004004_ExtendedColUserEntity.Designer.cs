@@ -4,14 +4,16 @@ using API.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace API.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20210530004004_ExtendedColUserEntity")]
+    partial class ExtendedColUserEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,9 +111,6 @@ namespace API.Data.Migrations
                     b.Property<string>("CollegeName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CollegeNum")
-                        .HasColumnType("int");
-
                     b.Property<string>("CollegePhone")
                         .HasColumnType("nvarchar(max)");
 
@@ -197,13 +196,13 @@ namespace API.Data.Migrations
 
             modelBuilder.Entity("API.Entities.CollegeMajor", b =>
                 {
-                    b.Property<int>("CollegeNum")
+                    b.Property<int>("CollegeId")
                         .HasColumnType("int");
 
                     b.Property<int>("MajorId")
                         .HasColumnType("int");
 
-                    b.HasKey("CollegeNum", "MajorId");
+                    b.HasKey("CollegeId", "MajorId");
 
                     b.HasIndex("MajorId");
 
@@ -215,7 +214,7 @@ namespace API.Data.Migrations
                     b.Property<int>("FactId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CollegeNum")
+                    b.Property<int>("CollegeId")
                         .HasColumnType("int");
 
                     b.Property<string>("FactBullet")
@@ -223,7 +222,7 @@ namespace API.Data.Migrations
 
                     b.HasKey("FactId");
 
-                    b.HasIndex("CollegeNum");
+                    b.HasIndex("CollegeId");
 
                     b.ToTable("FactFeatures");
                 });
@@ -274,7 +273,7 @@ namespace API.Data.Migrations
                 {
                     b.HasOne("API.Entities.ColUser", "ColUser")
                         .WithMany("CollegeMajors")
-                        .HasForeignKey("CollegeNum")
+                        .HasForeignKey("CollegeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -293,7 +292,7 @@ namespace API.Data.Migrations
                 {
                     b.HasOne("API.Entities.ColUser", "ColUser")
                         .WithMany("FactFeatures")
-                        .HasForeignKey("CollegeNum")
+                        .HasForeignKey("CollegeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
