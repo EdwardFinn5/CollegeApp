@@ -26,6 +26,7 @@ namespace API.Entities
         public string DreamJob { get; set; }
         public int CollegeNum { get; set; }
         public string CollegeName { get; set; }
+        public string CollegeNickname { get; set; }
         public string CollegeLocation { get; set; }
         public string CollegeEnrollment { get; set; }
         public int Tuition { get; set; }

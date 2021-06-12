@@ -2,16 +2,18 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ReplaySubject } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { ColUser } from '../_models/colUser';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ColAccountService {
-  baseUrl = 'https://localhost:5001/api/';
+  baseUrl = environment.apiUrl;
   private currentColUserSource = new ReplaySubject<ColUser>(1);
   currentColUser$ = this.currentColUserSource.asObservable();
   colUserType: string;
+  firstName: string;
 
   constructor(private http: HttpClient) {}
 

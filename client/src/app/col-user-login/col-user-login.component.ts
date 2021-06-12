@@ -25,7 +25,7 @@ export class ColUserLoginComponent implements OnInit {
     this.colAccountService.colLogin(this.model).subscribe((response) => {
       console.log(response);
       this.loggedIn = true;
-      this.router.navigateByUrl('/members');
+      this.router.navigateByUrl('/colmembers');
     });
   }
 

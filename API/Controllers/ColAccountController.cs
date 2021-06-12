@@ -69,7 +69,8 @@ namespace API.Controllers
             {
                 ColUserName = colUser.ColUserName,
                 Token = _tokenService.CreateToken(colUser),
-                ColUserType = colUser.ColUserType
+                ColUserType = colUser.ColUserType,
+                FirstName = colUser.FirstName
             };
         }
 
@@ -98,7 +99,8 @@ namespace API.Controllers
             {
                 ColUserName = colUser.ColUserName,
                 Token = _tokenService.CreateToken(colUser),
-                ColUserType = colUser.ColUserType
+                ColUserType = colUser.ColUserType,
+                FirstName = colUser.FirstName
             };
 
         }

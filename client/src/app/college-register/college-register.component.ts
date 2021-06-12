@@ -26,7 +26,7 @@ export class CollegeRegisterComponent implements OnInit {
       (response) => {
         console.log(response);
         this.cancel();
-        this.router.navigateByUrl('/members');
+        this.router.navigateByUrl('/colmembers');
       },
       (error) => {
         console.log(error);

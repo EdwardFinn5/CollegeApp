@@ -3,43 +3,33 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AccountService } from '../_services/account.service';
-import { User } from '../_models/user';
 import { take } from 'rxjs/operators';
-import { ColAccountService } from '../_services/colAccount.service';
 import { ColUser } from '../_models/coluser';
+import { ColAccountService } from '../_services/col-account.service';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
+  constructor(private colAccountService: ColAccountService) {}
 
-  constructor(private accountService: AccountService,
-              private colAccountService: ColAccountService) {}
+  intercept(
+    request: HttpRequest<unknown>,
+    next: HttpHandler
+  ): Observable<HttpEvent<unknown>> {
+    let currentColUser: ColUser;
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    let currentUser: User;
-    let colCurrentUser: ColUser;
-
-    this.accountService.currentUser$.pipe(take(1)).subscribe(user => currentUser = user);
-    if (currentUser) {
+    this.colAccountService.currentColUser$
+      .pipe(take(1))
+      .subscribe((colUser) => (currentColUser = colUser));
+    if (currentColUser) {
       request = request.clone({
         setHeaders: {
-          Authorization: `Bearer ${currentUser.token}`
-        }
-      })
+          Authorization: `Bearer ${currentColUser.token}`,
+        },
+      });
     }
-
-    this.colAccountService.currentUser$.pipe(take(1)).subscribe(colUser => colCurrentUser = colUser);
-    if (colCurrentUser) {
-      request = request.clone({
-        setHeaders: {
-          Authorization: `Bearer ${colCurrentUser.token}`
-        }
-      })
-    }
-
     return next.handle(request);
   }
 }
