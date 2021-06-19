@@ -7,6 +7,7 @@ import { ServerErrorComponent } from './errors/server-error/server-error.compone
 import { TestErrorsComponent } from './errors/test-errors/test-errors.component';
 import { HomeComponent } from './home/home.component';
 import { HsEditComponent } from './hs-edit/hs-edit.component';
+import { CollegeEditComponent } from './college-edit/college-edit.component';
 import { HsListComponent } from './hs-list/hs-list.component';
 import { ColUserLoginComponent } from './col-user-login/col-user-login.component';
 import { HsStudentComponent } from './hs-student/hs-student.component';
@@ -16,6 +17,8 @@ import { ColmemberListComponent } from './colmembers/colmember-list/colmember-li
 import { ListsComponent } from './lists/lists.component';
 import { AuthGuard } from './_guards/auth.guard';
 import { HsDetailComponent } from './hs-detail/hs-detail.component';
+import { PreventUnsavedHsChangesGuard } from './_guards/prevent-unsaved-hs-changes.guard';
+import { PreventUnsavedCollegeChangesGuard } from './_guards/prevent-unsaved-college-changes.guard';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -28,6 +31,16 @@ const routes: Routes = [
       { path: 'hsmemberedit', component: HsEditComponent },
       { path: 'lists', component: ListsComponent },
       { path: 'hsdetail/:colusername', component: HsDetailComponent },
+      {
+        path: 'hsedit',
+        component: HsEditComponent,
+        canDeactivate: [PreventUnsavedHsChangesGuard],
+      },
+      {
+        path: 'collegeedit',
+        component: CollegeEditComponent,
+        canDeactivate: [PreventUnsavedCollegeChangesGuard],
+      },
       { path: 'collegedetail/:colusername', component: CollegeDetailComponent },
     ],
   },

@@ -21,6 +21,7 @@ export interface ColMember {
   dreamJob: string;
   collegeNum: number;
   collegeName: string;
+  collegeNickname: string;
   collegeLocation: string;
   collegeEnrollment: string;
   tuition: number;

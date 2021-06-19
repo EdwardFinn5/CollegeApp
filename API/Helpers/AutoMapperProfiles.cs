@@ -18,6 +18,7 @@ namespace API.Helpers
                     src.ColPhotos.FirstOrDefault(x => x.IsMainAdmin).AdminUrl));
             CreateMap<ColPhoto, ColPhotoDto>();
             CreateMap<FactFeature, FactFeatureDto>();
+            CreateMap<ColMemberUpdateDto, ColUser>();
         }
     }
 }

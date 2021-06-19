@@ -1,0 +1,16 @@
+h2 {
+  font-weight: bold;
+}
+
+textarea {
+  width: 90%;
+}
+
+input {
+  width: 90%;
+}
+
+.img-adminthumbnail {
+  height: 15%;
+  /* width: 15%; */
+}

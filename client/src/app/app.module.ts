@@ -29,6 +29,8 @@ import { ErrorInterceptor } from './_interceptors/error.interceptor';
 import { ColmemberListComponent } from './colmembers/colmember-list/colmember-list.component';
 import { ColmemberCardComponent } from './colmembers/colmember-card/colmember-card.component';
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
+import { NgxSpinnerModule } from 'ngx-spinner';
+import { LoadingInterceptor } from './_interceptors/loading.interceptor';
 
 @NgModule({
   declarations: [
@@ -63,11 +65,13 @@ import { JwtInterceptor } from './_interceptors/jwt.interceptor';
     BrowserAnimationsModule,
     FormsModule,
     SharedModule,
+    NgxSpinnerModule,
   ],
 
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })
