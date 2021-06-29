@@ -5,9 +5,12 @@ using System.Threading.Tasks;
 using API.Data;
 using API.DTOs;
 using API.Entities;
+using API.Extensions;
 using API.Interfaces;
+using API.Services;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -18,8 +21,10 @@ namespace API.Controllers
     {
         private readonly IColUserRepository _colUserRepository;
         private readonly IMapper _mapper;
-        public ColUsersController(IColUserRepository colUserRepository, IMapper mapper)
+        private readonly IPhotoService _photoService;
+        public ColUsersController(IColUserRepository colUserRepository, IMapper mapper, IPhotoService photoService)
         {
+            _photoService = photoService;
             _mapper = mapper;
             _colUserRepository = colUserRepository;
         }
@@ -32,7 +37,7 @@ namespace API.Controllers
             return Ok(colUsers);
         }
 
-        [HttpGet("{colusername}")]
+        [HttpGet("{colusername}", Name = "GetColUser")]
         public async Task<ActionResult<ColMemberDto>> GetColUser(string colusername)
         {
             return await _colUserRepository.GetColMemberAsync(colusername);
@@ -41,8 +46,7 @@ namespace API.Controllers
         [HttpPut]
         public async Task<ActionResult> UpdateColUser(ColMemberUpdateDto colMemberUpdateDto)
         {
-            var colUsername = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            var colUser = await _colUserRepository.GetColUserByUsernameAsync(colUsername);
+            var colUser = await _colUserRepository.GetColUserByUsernameAsync(User.GetColUserName());
 
             _mapper.Map(colMemberUpdateDto, colUser);
 
@@ -67,5 +71,138 @@ namespace API.Controllers
 
             return BadRequest("Failed to update colUser");
         }
+
+
+
+        [HttpPost("add-photo")]
+        public async Task<ActionResult<ColPhotoDto>> AddPhoto(IFormFile file)
+        {
+            var user = await _colUserRepository.GetColUserByUsernameAsync(User.GetColUserName());
+
+            var result = await _photoService.AddPhotoAsync(file);
+
+            if (result.Error != null) return BadRequest(result.Error.Message);
+
+            var photo = new ColPhoto
+            {
+                ColUrl = null,
+                HsStudentUrl = null
+            };
+
+            if (user.ColUserType == "College")
+            {
+                photo.ColUrl = result.SecureUrl.AbsoluteUri;
+                photo.PublicId = result.PublicId;
+            };
+
+            if (user.ColUserType == "ColLead")
+            {
+                photo.HsStudentUrl = result.SecureUrl.AbsoluteUri;
+                photo.PublicId = result.PublicId;
+            };
+
+            if (user.ColPhotos.Count == 0 && user.ColUserType == "College")
+            {
+                photo.IsMainCol = true;
+            }
+
+            if (user.ColPhotos.Count == 0 && user.ColUserType == "ColLead")
+            {
+                photo.IsMainHs = true;
+            }
+
+            user.ColPhotos.Add(photo);
+
+            if (await _colUserRepository.SaveAllAsync())
+            {
+                // return CreatedAtRoute("GetColUser", _mapper.Map<ColPhotoDto>(photo));
+                return CreatedAtRoute("GetColUser", new { colusername = user.ColUserName }, _mapper.Map<ColPhotoDto>(photo));
+                // used 3rd overload which 
+                // has the following parameters: string routename, object routeValues, object value
+            }
+
+            return BadRequest("Problem adding photo");
+        }
+
+        [HttpPut("set-main-photo/{photoId}")]
+        public async Task<ActionResult> SetMainPhoto(int photoId)
+        {
+            var colUser = await _colUserRepository.GetColUserByUsernameAsync(User.GetColUserName());
+
+            var colPhoto = colUser.ColPhotos.FirstOrDefault(x => x.ColPhotoId == photoId);
+
+            if (colUser.ColUserType == "College")
+            {
+                if (colPhoto.IsMainCol) return BadRequest("This is already your main photo");
+
+                var currentMain = colUser.ColPhotos.FirstOrDefault(x => x.IsMainCol);
+
+                if (currentMain != null)
+                {
+                    currentMain.IsMainCol = false;
+                    colPhoto.IsMainCol = true;
+                }
+            }
+
+            if (colUser.ColUserType == "ColLead")
+            {
+                if (colPhoto.IsMainHs) return BadRequest("This is already your main logo");
+
+                var currentMain = colUser.ColPhotos.FirstOrDefault(x => x.IsMainHs);
+
+                if (currentMain != null)
+                {
+                    currentMain.IsMainHs = false;
+                    colPhoto.IsMainHs = true;
+                }
+            }
+
+            if (await _colUserRepository.SaveAllAsync()) return NoContent();
+
+            return BadRequest("Failed to set main photo");
+        }
+
+        [HttpDelete("delete-colPhoto/{photoId}")]
+        public async Task<ActionResult> DeleteColPhoto(int photoId)
+        {
+            var colUser = await _colUserRepository.GetColUserByUsernameAsync(User.GetColUserName());
+
+            var colPhoto = colUser.ColPhotos.FirstOrDefault(x => x.ColPhotoId == photoId);
+
+            if (colPhoto == null)
+            {
+                return NotFound();
+            }
+
+            if (colPhoto.IsMainCol)
+            {
+                return BadRequest("You cannot delete your main photo");
+            }
+
+            if (colPhoto.IsMainHs)
+            {
+                return BadRequest("You cannot delete your main photo");
+            }
+
+            if (colPhoto.PublicId != null)
+            {
+                var result = await _photoService.DeletePhotoAsync(colPhoto.PublicId);
+                if (result.Error != null)
+                {
+                    return BadRequest(result.Error.Message);
+                }
+            }
+
+            colUser.ColPhotos.Remove(colPhoto);
+
+            if (await _colUserRepository.SaveAllAsync()) return Ok();
+
+            return BadRequest("Failed to delete the photo");
+        }
+
+        // public class PhotoDto
+        // {
+        //     // }
+        // }
     }
 }

@@ -31,6 +31,7 @@ import { ColmemberCardComponent } from './colmembers/colmember-card/colmember-ca
 import { JwtInterceptor } from './_interceptors/jwt.interceptor';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { LoadingInterceptor } from './_interceptors/loading.interceptor';
+import { PhotoEditorComponent } from './colmembers/photo-editor/photo-editor.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { LoadingInterceptor } from './_interceptors/loading.interceptor';
     ListsComponent,
     ColmemberListComponent,
     ColmemberCardComponent,
+    PhotoEditorComponent,
   ],
 
   imports: [

@@ -151,8 +151,9 @@
 
     <div *ngIf="colAccountService.colUserType == 'College'">
       <div class="dropdown" *ngIf="(colAccountService.currentColUser$ | async) as colUser" dropdown>
-        <div class="dropdown" style="font-size: 1.3em" dropdown>
-          <a class="dropdown-toggle text-light" dropdownToggle>Welcome {{colUser.firstName | titlecase}} </a>
+        <img src="{{colUser.colUrl}}" alt="{{colUser.collegeName}}">
+      
+          <a class="dropdown-toggle text-light ml-2" style="font-size: 1.3em" dropdownToggle>Welcome {{colUser.firstName | titlecase}} </a>
           <div class="dropdown-menu mt-3" *dropdownMenu>
             <a routerLink='/collegeedit' class="dropdown-item">Edit Profile</a>
             <div class="dropdown-divider"></div>
@@ -164,8 +165,9 @@
 
  <div *ngIf="colAccountService.colUserType == 'ColLead'">
     <div class="dropdown" *ngIf="(colAccountService.currentColUser$ | async) as colUser" dropdown>
-      <div class="dropdown" style="font-size: 1.3em" dropdown>
-        <a class="dropdown-toggle text-light" dropdownToggle>Welcome {{colUser.firstName | titlecase}} </a>
+      <img src="{{colUser.hsStudentUrl || '../../assets/images/coluser.PNG'}}" alt="{{colUser.firstName}}">
+     
+        <a class="dropdown-toggle text-light ml-2" style="font-size: 1.3em" dropdownToggle>Welcome {{colUser.firstName | titlecase}}</a>
         <div class="dropdown-menu mt-3" *dropdownMenu>
           <a routerLink='/hsedit' class="dropdown-item">Edit Profile</a>
           <div class="dropdown-divider"></div>
@@ -190,6 +192,6 @@
       <button class="btn btn-success my-2 my-sm-0 ml-2" type="submit">Login</button>
     </form> -->
       
-</div>
-</div>
+
+
 </nav>

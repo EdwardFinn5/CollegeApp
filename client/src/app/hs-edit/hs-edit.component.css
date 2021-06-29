@@ -15,8 +15,12 @@ input {
   /* width: 15%; */
 }
 
-.img-studthumbnail {
+/* .img-studthumbnail {
   margin: 25px;
   width: 85%;
   height: 85%;
+} */
+
+.img-studthumbnail {
+  height: 15%;
 }
